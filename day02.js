@@ -1,12 +1,12 @@
-//299
 const fs = require('fs')
 const input = fs.readFileSync('day2Input.txt', 'utf8')
+const lines = input.split("\n").map((line) => line.split(" ").map(Number))
 
-console.log(part1())
+console.log(`safe: ${part1()}`)
+console.log(`made safe: ${part2()}`)
 
 function part1() {
 
-	const lines = input.split("\n").map((line) => line.split(" ").map(Number))
 	let res = 0
 
 	for(let line in lines)
@@ -66,3 +66,32 @@ function checkDec(curr,next) {
 
 	return 1
 }
+
+//!
+
+function part2() {
+
+	let res = 0
+
+	for(let line in lines)	{
+
+		if(!checkLine(lines[line])) {
+
+			res += trySafe(lines[line])
+		}
+	}
+	return res
+}
+
+function trySafe(line) {
+
+	for(let i = 0; i < line.length; i++) {
+		const newLine = [...line]
+		newLine.splice(i,1);
+		if(checkLine(newLine))
+			return 1
+	}
+
+	return 0;
+}
+
