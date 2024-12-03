@@ -1,5 +1,5 @@
 const fs = require('fs')
-const input = fs.readFileSync('day2Input.txt', 'utf8')
+const input = fs.readFileSync('day02Input.txt', 'utf8')
 const lines = input.split("\n").map((line) => line.split(" ").map(Number))
 
 console.log(`safe: ${part1()}`)
