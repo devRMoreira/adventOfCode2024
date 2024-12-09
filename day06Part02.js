@@ -3,9 +3,9 @@ const input = fs.readFileSync('day06Input.txt', 'utf8')
 // ^
 //1-up 2-right 3-down 4-left
 
-console.log(part01())
+console.log(part1())
 
-function part01() {
+function part1() {
 	const map = input.split("\n").map((e) => e.split(""))
 
 	const curr = findPos(map)
@@ -17,6 +17,56 @@ function part01() {
 	return findPath(map)
 }
 
+function part02() {
+
+	const map = input.split("\n").map((e) => e.split(""))
+	const curr = findPos(map)
+	curr.dir = checkDir(map, curr.y, curr.x)
+	let res = 0
+	const moves = {up : 0, right : 0, left : 0, down : 0}
+
+	for(i = 0; i < map.length; i++)
+	{
+		for(j = 0; i < map.length; i++)
+		{
+			const newMap = map
+			newMap[i][j] = "O"
+
+			if(tryMap(newMap, moves, curr) == 2)
+				res++;
+		}
+	}
+}
+
+function tryMap(map, moves, curr)
+{
+
+
+	if(curr.dir === 1)
+	{
+		moves.up++
+		return moveUp(map, curr)
+	}
+
+	else if(curr.dir === 2)
+	{
+		moves.right++
+		return moveRight(map, curr)
+	}
+
+	else if(curr.dir === 3)
+	{
+		moves.left++
+		return moveDown(map, curr)
+	}
+
+	else if(curr.dir === 4)
+	{
+		moves.right++
+		return moveLeft(map, curr)
+	}
+
+}
 
 function findPos(map) {
 
