@@ -1,30 +1,43 @@
 const fs = require('fs')
 const input = fs.readFileSync('day06Input.txt', 'utf8')
-const map = input.split("\n").map((e) => e.split(""))
 // ^
 //1-up 2-right 3-down 4-left
 
 console.log(part1())
 
 function part1() {
+	const map = input.split("\n").map((e) => e.split(""))
 
-	const curr = findPos()
-	console.log(curr)
-	curr.dir = checkDir(curr.y, curr.x)
+	const curr = findPos(map)
+	curr.dir = checkDir(map, curr.y, curr.x)
 	let res = 0
 	while (res != 1)
-		res = makeMove(curr)
+		res = makeMove(map, curr)
 
-	return findPath()
+	return findPath(map)
 }
 
-function findPos() {
+function part2() {
+
+
+	for(i = 0; i < map.length; i++)
+	{
+		for(j = 0; i < map.length; i++)
+		{
+			const newmap = map
+			newmap[i][j] = "O"
+			
+		}
+	}
+}
+
+function findPos(map) {
 
 	const toFind = (e) => e != "#" && e != "."
 	for(i = 0; i < map.length; i++)
 	{
 		const res = map[i].findIndex(toFind)
-		console.log(res)
+
 		if (res != -1)
 		{
 			return {
@@ -37,7 +50,7 @@ function findPos() {
 	return 0
 }
 
-function findPath(){
+function findPath(map){
 
 	let res = 0
 
@@ -53,7 +66,7 @@ function findPath(){
 	return res
 }
 
-function checkDir(y,x) {
+function checkDir(map,y,x) {
 
 	if(map[y][x] === '^')
 		return 1
@@ -65,19 +78,19 @@ function checkDir(y,x) {
 		return 4
 }
 
-function makeMove(curr) {
+function makeMove(map, curr) {
 
 	if(curr.dir === 1)
-		return moveUp(curr)
+		return moveUp(map, curr)
 
 	else if(curr.dir === 2)
-		return moveRight(curr)
+		return moveRight(map, curr)
 
 	else if(curr.dir === 3)
-		return moveDown(curr)
+		return moveDown(map, curr)
 
 	else if(curr.dir === 4)
-		return moveLeft(curr)
+		return moveLeft(map, curr)
 
 }
 
@@ -93,7 +106,7 @@ function makeTurn(curr)
 		curr.dir = 1
 }
 
-function moveUp(curr) {
+function moveUp(map, curr) {
 
 	while(map[curr.y - 1][curr.x] != "#")
 	{
@@ -113,7 +126,7 @@ function moveUp(curr) {
 	return 0
 }
 
-function moveRight(curr) {
+function moveRight(map, curr) {
 
 	while(map[curr.y][curr.x + 1] != "#")
 	{
@@ -132,7 +145,7 @@ function moveRight(curr) {
 	return 0
 }
 
-function moveDown(curr) {
+function moveDown(map, curr) {
 
 	while(map[curr.y + 1][curr.x] != "#")
 	{
@@ -151,7 +164,7 @@ function moveDown(curr) {
 	return 0
 }
 
-function moveLeft(curr) {
+function moveLeft(map, curr) {
 
 	while(map[curr.y][curr.x - 1] != "#")
 	{
