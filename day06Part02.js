@@ -3,69 +3,33 @@ const input = fs.readFileSync('day06Input.txt', 'utf8')
 // ^
 //1-up 2-right 3-down 4-left
 
-console.log(part1())
-
-function part1() {
-	const map = input.split("\n").map((e) => e.split(""))
-
-	const curr = findPos(map)
-	curr.dir = checkDir(map, curr.y, curr.x)
-	let res = 0
-	while (res != 1)
-		res = makeMove(map, curr)
-
-	return findPath(map)
-}
+console.log(part02())
 
 function part02() {
-
 	const map = input.split("\n").map((e) => e.split(""))
 	const curr = findPos(map)
-	curr.dir = checkDir(map, curr.y, curr.x)
+	const moves = {up : 0, right : 0, down : 0, left : 0}
+	const newMoves = moves
 	let res = 0
-	const moves = {up : 0, right : 0, left : 0, down : 0}
+	curr.dir = checkDir(map, curr.y, curr.x)
 
-	for(i = 0; i < map.length; i++)
+
+	while (res != 1)
 	{
-		for(j = 0; i < map.length; i++)
+		for(i = 0; i < map.length; i++)
 		{
-			const newMap = map
-			newMap[i][j] = "O"
+			for(j = 0; j < map[i].length; j++)
+			{
+				const newMap = map
+				newMap[i][j] = "#"
+				res = makeMove(moves, newMoves, map, curr)
+			}
 
-			if(tryMap(newMap, moves, curr) == 2)
-				res++;
 		}
-	}
-}
 
-function tryMap(map, moves, curr)
-{
-
-
-	if(curr.dir === 1)
-	{
-		moves.up++
-		return moveUp(map, curr)
 	}
 
-	else if(curr.dir === 2)
-	{
-		moves.right++
-		return moveRight(map, curr)
-	}
-
-	else if(curr.dir === 3)
-	{
-		moves.left++
-		return moveDown(map, curr)
-	}
-
-	else if(curr.dir === 4)
-	{
-		moves.right++
-		return moveLeft(map, curr)
-	}
-
+	return findPath(map)
 }
 
 function findPos(map) {
@@ -115,19 +79,30 @@ function checkDir(map,y,x) {
 		return 4
 }
 
-function makeMove(map, curr) {
+function makeMove(moves, newMoves, map, curr) {
 
 	if(curr.dir === 1)
+	{
+		moves.up++
 		return moveUp(map, curr)
+	}
 
 	else if(curr.dir === 2)
+	{
+		moves.right++
 		return moveRight(map, curr)
+	}
 
 	else if(curr.dir === 3)
+	{
+		moves.down++
 		return moveDown(map, curr)
-
+	}
 	else if(curr.dir === 4)
+	{
+		moves.left++
 		return moveLeft(map, curr)
+	}
 
 }
 
